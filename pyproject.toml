@@ -3,16 +3,16 @@ requires = [ "setuptools>=42", "wheel" ]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ccptools"
+name = "batutils"
 dynamic = ["version"]
-description = "The CCP Tools team utilities for date and/or time objects and values and messing with types."
+description = "Team Batcave's utilities for date and/or time objects and values and messing with types and so much more."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
 authors = [
-    { name = "Thordur Matthiasson", email = "thordurm@ccpgames.com" },
+    { name = "Thordur Matthiasson", email = "doddi79@gmail.com" },
     { name = "John Aldis", email = "johnaldis@ccpgames.com" }
 ]
-keywords = [ "datetimeutils", "datetime", "typeutils", "type", "singleton", "date", "time", "timespan", "tools", "ccp", "utils" ]
+keywords = [ "datetimeutils", "datetime", "typeutils", "type", "singleton", "date", "time", "timespan", "tools", "batcave", "utils" ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
 
@@ -35,14 +35,14 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ccpgames/ccptools"
-Documentation = "https://github.com/ccpgames/ccptools/blob/main/README.md"
-Repository = "https://github.com/ccpgames/ccptools.git"
-Issues = "https://github.com/ccpgames/ccptools/issues"
-Changelog = "https://github.com/ccpgames/ccptools/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/doddi79/batutils"
+Documentation = "https://github.com/doddi79/batutils/blob/main/README.md"
+Repository = "https://github.com/doddi79/batutils.git"
+Issues = "https://github.com/doddi79/batutils/issues"
+Changelog = "https://github.com/doddi79/batutils/blob/main/CHANGELOG.md"
 
 [tool.setuptools.dynamic]
-version = {attr = "ccptools.__version__"}
+version = {attr = "batutils.__version__"}
 
 [tool.setuptools.packages.find]
 where = [ "." ]

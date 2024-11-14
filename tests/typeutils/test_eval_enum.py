@@ -1,9 +1,9 @@
 import unittest
 
-from ccptools.tpu import casting
+from batutils.tpu import casting
 import enum
 
-from ccptools.tpu.structs.enumex._enumextra import EnumEx
+from batutils.tpu.structs.enumex import EnumEx
 
 
 class TestEnumEval(unittest.TestCase):

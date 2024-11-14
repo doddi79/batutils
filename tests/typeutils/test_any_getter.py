@@ -1,6 +1,6 @@
 import unittest
 
-from ccptools.legacyapi.typeutils import iters
+from batutils.tpu import iters
 import datetime
 
 

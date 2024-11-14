@@ -1,6 +1,6 @@
 import unittest
 
-from ccptools import dtu
+from batutils import dtu
 
 
 class DeltaSplitTest(unittest.TestCase):

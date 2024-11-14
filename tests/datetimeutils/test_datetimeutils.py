@@ -1,7 +1,7 @@
 import unittest
 import datetime
 
-from ccptools import dtu
+from batutils import dtu
 
 
 class DateTimeUtilsTest(unittest.TestCase):

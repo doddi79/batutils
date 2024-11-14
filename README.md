@@ -1,17 +1,25 @@
-# CCP Games Python Toolkit
+# Team Batcave Python Toolkit
 
-A smooshup of a few Python packages from the CCP Tools Team of old (Team 
+The `batutils` is a fork of the `batutils` package in order to continue its 
+development and maintenance beyond Team Batcave's lifespan.  
+
+It is a smooshup of a few Python packages from the CCP Tools Team of old (Team 
 Batcave).
 
 Our two most commonly used internal packages, called `datetimeutils` and 
 `typeutils` were too _generically_ named for Pypi.org and since they were 
 both used in something like 80-90% of our other projects, it made sense to 
-just smoosh them together in one module, and thus, the `ccptools` package 
+just smoosh them together in one module, and thus, the `batutils` package 
 was born.
 
-Here's the README of the [Date Time Utils](./ccptools/dtu/README.md) submodule.
+Here's the README of the [Date Time Utils](batutils/dtu/README.md) submodule.
 
-Here's the README of the [Type Utils](./ccptools/tpu/README.md) submodule.
+Here's the README of the [Type Utils](batutils/tpu/README.md) submodule.
+
+
+### Changes from `ccptools`
+
+The `legacyapi` submodule has been removed.
 
 
 ## Date-Time Utils
@@ -19,60 +27,8 @@ Here's the README of the [Type Utils](./ccptools/tpu/README.md) submodule.
 The old `datetimeutils` package is now included here as the `dtu` submodule.
 
 ```python
-from ccptools import dtu
+from batutils import dtu
 ```
-
-### Changes from `datetimeutils`
-
-The name has been shortened to `dtu` to speed up usage _(although you can 
-also just go `from ccptools.dtu import *` if you wish)_.
-
-The code has also been quite heavily refactored but everything that was 
-available in `datetimeutils` 2.3.0.0 should be accessible via `ccptools.legacyapi.datetimeutils`.
-
-That is, for a super low-effort upgrade from older `datetimeutils` version 
-to the new `ccptools` package, simply replace...:
-
-```python
-import datetimeutils
-```
-
-...with...
-
-```python
-from ccptools.legacyapi import datetimeutils
-```
-
-...and everything should work fine! :)
-
-Note that any Python 2.7 support has been removed.
-
-### Changes from `typeutils`
-
-The name has been shortened to `tpu` although that's more to fit in with the 
-`dtu` pattern. It shouldn't really matter since `typeutils` was rarely if 
-ever imported directly since it was split into multiple submodules from the 
-start.
-
-Nevertheless to accommodate any changed from `typeutils` 3.5.0.0 and ease 
-migration over to `ccptools` the old API is aliased in 
-`ccptools.legacyapi.typeutils`.
-
-So you can simply replace
-
-```python
-from typeutils import metas
-```
-
-...with...
-
-```python
-from ccptools.legacyapi.typeutils import metas
-```
-
-...and everything should work fine! :)
-
-Note that any Python 2.7 support has been removed.
 
 ## Structs
 
@@ -91,7 +47,7 @@ import time  # Very commonly used
 ```
 
 Note that datetime is not included in this. That's because tt'll also import 
-the aliases from the Datetime Utils (`ccptools.dtu.structs.aliases`) 
+the aliases from the Datetime Utils (`batutils.dtu.structs.aliases`) 
 package instead:
 
 ```python
@@ -114,5 +70,5 @@ So in most cases we can cover something like 90% of any imports we tend to
 need in every Python file with a single line:
 
 ```python
-from ccptools.structs import *
+from batutils.structs import *
 ```

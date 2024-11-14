@@ -1,11 +1,11 @@
 import unittest
 
-from ccptools.tpu.structs.serializers import *
+from batutils.tpu.structs.serializers import *
 
 from tests.typeutils import sometypes
 import decimal
 import datetime
-from ccptools.legacyapi.typeutils import empty
+from batutils.tpu.structs import empty
 
 
 class Foo:

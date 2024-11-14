@@ -1,6 +1,6 @@
 import unittest
-from ccptools.dtu.structs import *
-from ccptools.dtu.casting import *
+from batutils.dtu.structs import *
+from batutils.dtu.casting import *
 
 
 class TestInstant(unittest.TestCase):
