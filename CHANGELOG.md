@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2024-11-14
 
+Forked and renamed!
+
 ### Added
 
 - This project by forking [`ccptools`](https://github.com/ccpgames/ccptools)
