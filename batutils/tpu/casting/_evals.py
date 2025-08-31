@@ -223,7 +223,7 @@ def enum_eval(value: Any,
             return default
 
     if isinstance(value, str):
-        hit = {o.name.lower(): o for o in enum_class}.get(value.strip().lower(), None)
+        hit = {n.lower(): m for n, m in enum_class.__members__.items()}.get(value.strip().lower(), None)
         if hit is not None:
             return hit
         try:
