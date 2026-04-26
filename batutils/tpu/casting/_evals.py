@@ -4,6 +4,8 @@ __all__ = [
     'bool_eval',
     'enum_eval',
 
+    'enum_value_lookup_map',
+
     'decode_bytes',
 ]
 
@@ -223,9 +225,24 @@ def enum_eval(value: Any,
             return default
 
     if isinstance(value, str):
+        # First we check the member name (normalized)
         hit = {n.lower(): m for n, m in enum_class.__members__.items()}.get(value.strip().lower(), None)
         if hit is not None:
             return hit
+
+    try:
+        value_lookup = enum_value_lookup_map(enum_class, allow_collision=False)
+    except KeyError:
+        if raise_on_fail:
+            raise
+        return default
+
+    # This covers just about everything, except where a numeric value was given as a string
+    hit = value_lookup.get(value, None)
+    if hit is not None:
+        return hit
+
+    if isinstance(value, str):
         try:
             value = int(value, base=0)
         except ValueError:
@@ -233,15 +250,53 @@ def enum_eval(value: Any,
                 raise ValueError(f'{value!r} is not a valid {enum_class.__name__}')
             return default
 
-    if isinstance(value, int):
-        try:
-            return enum_class(value)
-        except ValueError:
-            if raise_on_fail:
-                raise
-            return default
+        # Retry after casting
+        hit = value_lookup.get(value, None)
+        if hit is not None:
+            return hit
 
     if raise_on_fail:
         raise ValueError(f'{value!r} is not a valid {enum_class.__name__}')
 
     return default
+
+
+def enum_value_lookup_map(enum_class: Type[_T_ENUM_CLASS], allow_collision: bool = False) -> Dict[Any, _T_ENUM_CLASS]:
+    """Returns a dict of all the values of an enum class as keys and their respective members as values for reverse
+    value lookups.
+
+    This also breaks down the individual values in the value tuple of a multi-value enum and includes each of those as
+    a lookup key as well. By default, this will raise a `KeyError` if any individual value is repeated with a different
+    member as its target but this can be suppressed by setting `allow_collision=True`
+
+    Example:
+    ```python
+    import enum
+
+    class MyGoodEnum(enum.Enum):
+        FOO = ('one', 'one'),  # This is fine
+        BAR = ('something', 'else'),
+
+    class MyBadEnum(enum.Enum):
+        FOO = ('one', 'something'),
+        BAR = ('one', 'else'),  # This will result in a collision with FOO's 'one' and raise a KeyError by default
+    ```
+    """
+    d = {}
+
+    def _collision_free_add(value: Any, enum_member: _T_ENUM_CLASS):
+        if allow_collision:
+            d[value] = enum_member
+        else:
+            if value in d:
+                if d[value] != enum_member:
+                    raise KeyError(f'value lookup map for {enum_class.__name__} resulted in a collision between {d[value]} and {enum_member} for the value {value!r}')
+            else:
+                d[value] = enum_member
+
+    for _, member in enum_class.__members__.items():
+        _collision_free_add(member.value, member)
+        if isinstance(member.value, tuple):
+            for v in member.value:
+                _collision_free_add(v, member)
+    return d
