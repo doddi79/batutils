@@ -17,18 +17,11 @@ def timestamp_to_datetime(seconds_since_epoch: T_NUMBER, minmax_on_fail: bool = 
     :return: A Python Datetime
     """
     try:
-        return Datetime.fromtimestamp(seconds_since_epoch)
-    except OSError:
-        try:
-            return Datetime(1970, 1, 1, 0, 0, 0, 0) + TimeDelta(seconds=seconds_since_epoch)
-        except OverflowError:
-            if minmax_on_fail:
-                if seconds_since_epoch > 0:
-                    return Datetime.max
-                else:
-                    return Datetime.min
-            else:
-                raise
+        return Datetime(1970, 1, 1) + TimeDelta(seconds=seconds_since_epoch)
+    except OverflowError:
+        if minmax_on_fail:
+            return Datetime.max if seconds_since_epoch > 0 else Datetime.min
+        raise
 
 
 def datetime_to_timestamp(dt: T_DATE_VALUE) -> float:

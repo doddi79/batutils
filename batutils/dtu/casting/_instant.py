@@ -16,7 +16,12 @@ def instant_to_datetime(milliseconds_since_epoch: T_NUMBER, minmax_on_fail: bool
                            negative)
     :return: A Python Datetime
     """
-    return timestamp_to_datetime(milliseconds_since_epoch / 1000., minmax_on_fail)
+    try:
+        return Datetime(1970, 1, 1) + TimeDelta(milliseconds=milliseconds_since_epoch)
+    except OverflowError:
+        if minmax_on_fail:
+            return Datetime.max if milliseconds_since_epoch > 0 else Datetime.min
+        raise
 
 
 def datetime_to_instant(dt: T_DATE_VALUE) -> int:
