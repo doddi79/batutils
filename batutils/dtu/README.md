@@ -138,11 +138,43 @@ or floating numbers.
 
 ### Constants
 
-TODO: Document this
+Also in `batutils.dtu.structs` (and thus `dtu`):
+
+| Constant                   | Value       |
+|----------------------------|-------------|
+| `DAYS_IN_MEAN_YEAR`        | `365.2425`  |
+| `DAYS_IN_MEAN_MONTH`       | `30.436875` |
+| `DAYS_IN_MEDIAN_YEAR`      | `365`       |
+| `DAYS_IN_MEDIAN_MONTH`     | `31`        |
+| `WHOLE_DAYS_IN_MEAN_YEAR`  | `365`       |
+| `WHOLE_DAYS_IN_MEAN_MONTH` | `30`        |
+| `SECONDS_IN_ONE_MINUTE`    | `60`        |
+| `SECONDS_IN_ONE_HOUR`      | `3600`      |
+| `SECONDS_IN_ONE_DAY`       | `86400`     |
+
+There is also a `Weekday` enum (`enum.IntEnum`, `MONDAY = 0` ... `SUNDAY = 6`),
+used by `next_weekday()`.
 
 ### The `DeltaSplit` Class
 
-TODO: Document this
+Splits a `timedelta` into approximate years, months, weeks, days, hours, minutes
+and seconds (years and months use the mean-length constants above). It's what
+`deltastr()` uses under the hood.
+
+```python
+from batutils import dtu
+
+split = dtu.DeltaSplit(dtu.TimeDelta(days=400, hours=3))
+
+split.years, split.months, split.days   # (1, 1, 4)
+split.largest_field_name                # 'years'
+split.to_str()                          # 'in 1 year and 1 month'
+split.to_dict()
+```
+
+Pass `include_weeks=False`, `include_months=False` or `include_years=False`
+to leave those units out (their fields are then `None`). `is_past` is `True`
+for negative timedeltas.
 
 
 ## Shortcuts
@@ -218,7 +250,30 @@ dtu.isostr_to_datetime('2024-04-02 13:47:25')
 # keywords as the datetime object takes, this method uses that pattern to grab
 # those keywords and initialize and return a datetime object.
 dtu.regex_to_datetime('31/12/2023', r'(?P<day>\d+)/(?P<month>\d+)/(?P<year>\d+)')
+
+# Unix seconds and milliseconds (and back again)
+dtu.timestamp_to_datetime(1700000000)
+dtu.datetime_to_timestamp(dtu.now())
+dtu.instant_to_datetime(1700000000000)
+dtu.datetime_to_instant(dtu.now())
 ```
+
+## Parsing
+
+```python
+from batutils import dtu
+
+# "2h34m", "12days", "-1.5 hours", "1 week"... (returns `default` on failure)
+dtu.str_to_delta('2h34m')
+
+# "now", "today", "yesterday" or "tomorrow"
+dtu.str_to_rel('yesterday')
+
+# Two ISO dates separated by anything
+dtu.str_to_2dates('1969-08-15 to 1969-08-18')
+```
+
+For a task-oriented list of everything, see the [Public API index](../../docs/api-index.md).
 
 ## Formatting
 

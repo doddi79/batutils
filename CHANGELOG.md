@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.2.1] - 2026-11-13
+
+### Added
+
+- A task-oriented public API index in `docs/api-index.md`, linked from the README
+- Documentation of the constants and `DeltaSplit` in the `dtu` README, which
+  also now covers timestamp/instant casting and the parsers
+
+### Changed
+
+- Tidied up the main README and replaced the stub `tpu` README with an overview
+
+
 ## [2.2.0] - 2026-04-26
 
 ### Added
